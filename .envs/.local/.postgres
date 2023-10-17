@@ -3,3 +3,4 @@ POSTGRES_PORT=5432
 POSTGRES_DB=authors-sanctuary
 POSTGRES_USER=mykyta
 POSTGRES_PASSWORD=1082000
+DATABASE_URL=postgres://mykyta:1082000@postgres:5432/authors-sanctuary
