@@ -1,19 +1,20 @@
 # TODO: change this in prod
-from authors_api.settings.local import DEFAULT_FROM_EMAIL
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import NotFound
+from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.parsers import MultiPartParser
+
+from authors_api.settings.local import DEFAULT_FROM_EMAIL
 
 from .exceptions import CantFollowYourself
 from .models import Profile
 from .pagination import ProfilePagination
 from .renderers import ProfileJSONRenderer, ProfilesJSONRenderer
-from .serializers import ProfileSerializer, UpdateProfileSerializer, FollowingSerializer
+from .serializers import FollowingSerializer, ProfileSerializer, UpdateProfileSerializer
 
 User = get_user_model()
 
@@ -118,10 +119,12 @@ class FollowAPIView(APIView):
             recipient_list = [profile.user.email]
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
 
-            return Response({
-                "status_code": status.HTTP_200_OK,
-                "message": f"You are now following {profile.user.first_name} {profile.user.last_name}",
-            },)
+            return Response(
+                {
+                    "status_code": status.HTTP_200_OK,
+                    "message": f"You are now following {profile.user.first_name} {profile.user.last_name}",
+                },
+            )
         except Profile.DoesNotExist:
             raise NotFound("You can't follow a profile that does not exist.")
 
@@ -134,13 +137,13 @@ class UnfollowAPIView(APIView):
         if not user_profile.check_following(profile):
             formatted_response = {
                 "status_code": status.HTTP_400_BAD_REQUEST,
-                "message": f"You can't unfollow {profile.user.first_name} {profile.user.last_name}, since you were not following then in the first place"
+                "message": f"You can't unfollow {profile.user.first_name} {profile.user.last_name}, since you were not following then in the first place",
             }
             return Response(formatted_response, status.HTTP_400_BAD_REQUEST)
 
         user_profile.unfollow(profile)
         formatted_response = {
             "status_code": status.HTTP_200_OK,
-            "message": f"You have unfollowed {profile.user.first_name} {profile.user.last_name}"
+            "message": f"You have unfollowed {profile.user.first_name} {profile.user.last_name}",
         }
         return Response(formatted_response, status.HTTP_200_OK)

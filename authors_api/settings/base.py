@@ -1,5 +1,6 @@
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
+
 import environ
 
 env = environ.Env()
@@ -102,16 +103,14 @@ WSGI_APPLICATION = "authors_api.wsgi.application"
 # }
 
 
-DATABASES = {
-    "default": env.db("DATABASE_URL")
-}
+DATABASES = {"default": env.db("DATABASE_URL")}
 
 PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.Argon2PasswordHasher',
-    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-    'django.contrib.auth.hashers.ScryptPasswordHasher',
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+    "django.contrib.auth.hashers.ScryptPasswordHasher",
 ]
 
 # Password validation
@@ -184,9 +183,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
-    "DEFAULT_FILTER_BACKEND": [
-        "django_filters.rest_framework.DjangoFilterBackend"
-    ]
+    "DEFAULT_FILTER_BACKEND": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 SIMPLE_JWT = {
@@ -196,14 +193,14 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "SIGNING_KEY": env("SIGNING_KEY"),
     "USER_ID_FIELD": "id",
-    "USER_ID_CLAIM": "user_id"
+    "USER_ID_CLAIM": "user_id",
 }
 
 REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_COOKIE": "authors_access_token",
     "JWT_AUTH_REFRESH_COOKIE": "authors_refresh_token",
-    "REGISTER_SERIALIZER": "core_apps.users.serializers.CustomRegisterSerializer"
+    "REGISTER_SERIALIZER": "core_apps.users.serializers.CustomRegisterSerializer",
 }
 
 AUTHENTICATION_BACKENDS = [
@@ -238,11 +235,11 @@ LOGGING = {
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
-            "formatter": "verbose"
+            "formatter": "verbose",
         }
     },
     "root": {
         "level": "INFO",
         "handlers": ["console"],
-    }
+    },
 }

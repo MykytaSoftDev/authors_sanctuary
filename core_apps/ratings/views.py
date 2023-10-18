@@ -1,10 +1,12 @@
 from django.db import IntegrityError
 from rest_framework import generics, permissions
-from core_apps.ratings.exceptions import YouhaveAlreadyRated
-from .serializers import RatingSerializer
-from .models import Rating
-from core_apps.articles.models import Article
 from rest_framework.exceptions import ValidationError
+
+from core_apps.articles.models import Article
+from core_apps.ratings.exceptions import YouhaveAlreadyRated
+
+from .models import Rating
+from .serializers import RatingSerializer
 
 
 class RatingCreateView(generics.CreateAPIView):
@@ -19,7 +21,6 @@ class RatingCreateView(generics.CreateAPIView):
                 article = Article.objects.get(id=article_id)
             except Article.DoesNotExist:
                 raise ValidationError("Invalid article_id provided")
-            
 
         try:
             serializer.save(user=self.request.user, article=article)
