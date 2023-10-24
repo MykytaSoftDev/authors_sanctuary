@@ -32,7 +32,6 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", False)
 
         user.save(using=self._db)
-
         return user
 
     def create_superuser(self, first_name, last_name, email, password, **extra_fields):
@@ -55,13 +54,6 @@ class CustomUserManager(BaseUserManager):
         else:
             raise ValueError(_("Superuser must have an email address."))
 
-        user = self.create_user(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            password=password,
-            **extra_fields,
-        )
+        user = self.create_user(first_name, last_name, email, password, **extra_fields)
         user.save(using=self._db)
-
         return user

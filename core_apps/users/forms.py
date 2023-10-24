@@ -20,7 +20,7 @@ class UserCreationForm(admin_forms.UserCreationForm):
     }
 
     def clean_email(self):
-        email = self.changed_data["email"]
+        email = self.cleaned_data["email"]
         try:
             User.objects.get(email=email)
         except User.DoesNotExist:
